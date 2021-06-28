@@ -1,177 +1,173 @@
+def minValueNode(node):
+    presentvalue = node
+    while presentvalue.left is not None:
+        presentvalue = presentvalue.left
+
+    return presentvalue
+
+
+def maxValueNode(node):
+    presentvalue = node
+    while presentvalue.right is not None:
+        presentvalue = presentvalue.right
+    return presentvalue
+
+
 class Node(object):
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
+    def __init__(object, value):
+        object.value = value
+        object.left = None
+        object.right = None
 
-    def insertTree(self, data):
-        if self.data == data:
-            return False        
+    def bstInsert(object, value):
+        if object.value == value:
+            return False
 
-        elif data < self.data: 
-            if self.left:
-                return self.left.insertTree(data)
+        elif value < object.value:
+            if object.left:
+                return object.left.bstInsert(value)
             else:
-                self.left = Node(data)
+                object.left = Node(value)
                 return True
 
         else:
-            if self.right:
-                return self.right.insertTree(data)
+            if object.right:
+                return object.right.bstInsert(value)
             else:
-                self.right = Node(data)
+                object.right = Node(value)
                 return True
-            
-    def minValueNode(self, node):
-        current = node
 
-        while(current.left != None):
-            current = current.left
-
-        return current
-
-    def maxValueNode(self, node):
-        current = node
-
-        while(current.right != None):
-            current = current.right
-
-        return current
-
-    def removeTree(self, data,root): 
-        if self == None:
+    def bstRemove(object, value, root):
+        if object is None:
             return None
 
-        if data < self.data:
-            self.left = self.left.removeTree(data,root)
-        elif data > self.data:
-            self.right = self.right.removeTree(data,root)
+        if value < object.value:
+            object.left = object.left.bstRemove(value, root)
+        elif value > object.value:
+            object.right = object.right.bstRemove(value, root)
         else:
-            if self.left == None:
+            if object.left is None:
 
-                if self == root:
-                    temp = self.minValueNode(self.right)
-                    self.data = temp.data
-                    self.right = self.right.removeTree(temp.data,root) 
+                if object == root:
+                    temp = minValueNode(object.right)
+                    object.value = temp.value
+                    object.right = object.right.bstRemove(temp.value, root)
 
-                temp = self.right
-                
+                temp = object.right
+
                 return temp
-            elif self.right == None:
+            elif object.right is None:
 
-                if self == root:
-                    temp = self.maxValueNode(self.left)
-                    self.data = temp.data
-                    self.left = self.left.removeTree(temp.data,root) 
+                if object == root:
+                    temp = maxValueNode(object.left)
+                    object.value = temp.value
+                    object.left = object.left.bstRemove(temp.value, root)
 
-                temp = self.left
-                
+                temp = object.left
+
                 return temp
 
-            temp = self.minValueNode(self.right)
-            self.data = temp.data
-            self.right = self.right.removeTree(temp.data,root)
+            temp = minValueNode(object.right)
+            object.value = temp.value
+            object.right = object.right.bstRemove(temp.value, root)
 
-        return self
+        return object
 
-    def findTree(self, data): 
-        if(data == self.data):
-            print ("this number is in the tree")
-        elif(data < self.data):
-            if self.left:
-                return self.left.findTree(data)
+    def bstFind(object, value):
+        if value == object.value:
+            print("This number exists in the tree!")
+        elif value < object.value:
+            if object.left:
+                return object.left.bstFind(value)
             else:
-                print ("this number is not in the tree")
-        elif (data > self.data):
-            if self.right:
-                return self.right.findTree(data)
+                print("This number does not exists in the tree!")
+        elif value > object.value:
+            if object.right:
+                return object.right.bstFind(value)
             else:
-                print ("this number is not in the tree")
+                print("This number does not exists in the tree!")
 
-    def preorder(self):
-        if self:
-            print(str(self.data), end = ' ')
-            if self.left:
-                self.left.preorder()
-            if self.right:
-                self.right.preorder()
-	
-    def inorder(self):
-        if self:
-            if self.left:
-                self.left.inorder()
-            print(str(self.data), end = ' ')
-            if self.right:
-                self.right.inorder()
+    def preorder(object):
+        if object:
+            print(str(object.value), end=' ')
+            if object.left:
+                object.left.preorder()
+            if object.right:
+                object.right.preorder()
 
-    def postorder(self):
-        if self:
-            if self.left:
-                self.left.postorder()
-            if self.right:
-                self.right.postorder()
-            print(str(self.data), end = ' ')
+    def inorder(object):
+        if object:
+            if object.left:
+                object.left.inorder()
+            print(str(object.value), end=' ')
+            if object.right:
+                object.right.inorder()
 
-class Tree(object):
-    def __init__(self):
-        self.root = None
+    def postorder(object):
+        if object:
+            if object.left:
+                object.left.postorder()
+            if object.right:
+                object.right.postorder()
+            print(str(object.value), end=' ')
 
-    def insertTree(self, data):
-        if self.root:
-            return self.root.insertTree(data)
+
+class BST(object):
+    def __init__(object):
+        object.root = None
+
+    def bstInsert(object, value):
+        if object.root:
+            return object.root.bstInsert(value)
         else:
-            self.root = Node(data)
+            object.root = Node(value)
             return True
 
-    def removeTree(self, data):
-        if self.root != None:
-            return self.root.removeTree(data,self.root)
+    def bstRemove(object, value):
+        if object.root is not None:
+            return object.root.bstRemove(value, object.root)
 
-    def findTree(self, data):
-        if self.root:
-            return self.root.findTree(data)
+    def bstFind(object, value):
+        if object.root:
+            return object.root.bstFind(value)
         else:
-            print ("this number is not in the tree")
+            print("This number does not exists in the tree!")
 
-    def preorder(self):
-        if self.root != None:
-            print()
-            print('Preorder: ')
-            self.root.preorder()
+    def preorder(object):
+        if object.root is not None:
+            print('\nPreorder: ')
+            object.root.preorder()
 
-    def inorder(self):
-        print()
-        if self.root != None:
-            print('Inorder: ')
-            self.root.inorder()
+    def inorder(object):
+        if object.root is not None:
+            print('\nInorder: ')
+            object.root.inorder()
 
-    def postorder(self):
-        print()
-        if self.root != None:
-            print('Postorder: ')
-            self.root.postorder()
+    def postorder(object):
+        if object.root is not None:
+            print('\nPostorder: ')
+            object.root.postorder()
+
 
 if __name__ == '__main__':
-    tree = Tree()
-    tree.insertTree(9)
-    tree.insertTree(3)
-    tree.insertTree(1)
-    tree.insertTree(6)
-    tree.insertTree(5)
-    tree.insertTree(20)
-    tree.insertTree(30)
-    tree.insertTree(21)
-    tree.insertTree(20)
-    print(tree.findTree(1))
-    print(tree.findTree(12))
-    print(tree.findTree(100))
-    tree.preorder()
-    tree.inorder()
-    tree.postorder()
-    tree.removeTree(5)
-    print("\nrespective order after 5 is deleted ")
-    tree.preorder()
-    tree.inorder()
-    tree.postorder()
-
-# https://github.com/OmkarPathak/Data-Structures-using-Python/blob/master/Trees/BinarySearchTree.py
+    bstvalue = BST()
+    bstvalue.bstInsert(9)
+    bstvalue.bstInsert(3)
+    bstvalue.bstInsert(1)
+    bstvalue.bstInsert(6)
+    bstvalue.bstInsert(5)
+    bstvalue.bstInsert(20)
+    bstvalue.bstInsert(30)
+    bstvalue.bstInsert(21)
+    bstvalue.bstInsert(20)
+    print(bstvalue.bstFind(1))
+    print(bstvalue.bstFind(12))
+    print(bstvalue.bstFind(100))
+    bstvalue.preorder()
+    bstvalue.inorder()
+    bstvalue.postorder()
+    bstvalue.bstRemove(5)
+    print("\nRespective order after 5 is deleted")
+    bstvalue.preorder()
+    bstvalue.inorder()
+    bstvalue.postorder()
